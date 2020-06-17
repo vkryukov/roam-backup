@@ -35,7 +35,7 @@ optional arguments:
 
 ## Scheduling backup
 
-To schedule backups on macOS, you can use [A launchd.plist generator](http://launched.zerowidth.com/). E.g.
+To schedule backups on macOS, you can use a [launchd.plist generator](http://launched.zerowidth.com/). E.g.
 if you put the script in `/Users/vkryukov`, and want to backup a local database `test` into 
 `/Users/vkryukov/roam-backups` every 15 minutes, you should populate the following fields:
 
