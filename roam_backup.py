@@ -48,12 +48,15 @@ def clone_chrome_user_data(username, dst_dir):
 
 def move_roam_exports_since(start, backup_dir, username, local_graph):
     """Move all Roam-Export-*.zip files created after start into dst_dir"""
-    paths = [p for p in glob.glob("Roam-Export-*.zip")
+    paths = [p for p in glob.glob(f"Roam-Export-*.zip")
              if os.path.getctime(p) >= start]
     for p in paths:
         base = os.path.splitext(os.path.basename(p))[0][len("Roam-Export-"):]
         fmt_time = time.strftime("%Y-%m-%d-%H%M%S", time.localtime(float(base)/1000))
-        shutil.move(p, os.path.join(backup_dir, f"{local_graph}-{fmt_time}.zip"))
+        target = os.path.join(backup_dir, f"{local_graph}-{fmt_time}.zip")
+        print(f"Moving {p} to {target}...", end="")
+        shutil.move(p, target)
+        print("done.")
 
 
 if __name__ == "__main__":
@@ -62,18 +65,21 @@ if __name__ == "__main__":
     parser.add_argument("backup_dir", help="folder to place backup files")
     args = parser.parse_args()
 
+
     username = getpass.getuser()
     tmp = tempfile.TemporaryDirectory()
     user_data_dir = tmp.name + "/chrome"
 
     clone_chrome_user_data(username, user_data_dir)
 
+    print("Launching headless chrome...", end="")
     chrome_options = Options()
     chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
     chrome_options.add_argument("--profile-directory=Default")
+    chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-extensions")  # to avoid  nasty side effects
-    driver = Chrome(options=chrome_options)
+    driver = Chrome("/usr/local/bin/chromedriver", options=chrome_options)
+    print("done.")
 
     start = time.time()
     download_local_graph(driver, args.local_graph)
