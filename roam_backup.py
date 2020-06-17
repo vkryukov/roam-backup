@@ -30,7 +30,7 @@ def download_local_graph(driver, name):
         time.sleep(0.1)
         el.click()
 
-    time.sleep(3)
+    time.sleep(10)
     print("done.")
 
 
@@ -48,7 +48,7 @@ def clone_chrome_user_data(username, dst_dir):
 
 def move_roam_exports_since(start, backup_dir, username, local_graph):
     """Move all Roam-Export-*.zip files created after start into dst_dir"""
-    paths = [p for p in glob.glob(f"/Users/{username}/Downloads/Roam-Export-*.zip")
+    paths = [p for p in glob.glob("Roam-Export-*.zip")
              if os.path.getctime(p) >= start]
     for p in paths:
         base = os.path.splitext(os.path.basename(p))[0][len("Roam-Export-"):]
@@ -71,6 +71,7 @@ if __name__ == "__main__":
     chrome_options = Options()
     chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
     chrome_options.add_argument("--profile-directory=Default")
+    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-extensions")  # to avoid  nasty side effects
     driver = Chrome(options=chrome_options)
 
