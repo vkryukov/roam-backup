@@ -14,23 +14,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-# https://stackoverflow.com/questions/48263317/selenium-python-waiting-for-a-download-process-to-complete-using-chrome-web
-def every_downloads_chrome(driver):
-    if not driver.current_url.startswith("chrome://downloads"):
-        driver.get("chrome://downloads/")
-    # return driver.execute_script("""
-    #         var items = downloads.Manager.get().items_;
-    #         if (items.every(e => e.state === "COMPLETE"))
-    #             return items.map(e => e.fileUrl || e.file_url);
-    #         """)
-    return driver.execute_script("""
-        return document.querySelector('downloads-manager')
-        .shadowRoot.querySelector('#downloadsList')
-        .items.filter(e => e.state === 'COMPLETE')
-        .map(e => e.filePath || e.file_path || e.fileUrl || e.file_url);
-        """)
-
-
 def download_local_graph(driver, name):
     """Download a local graph with given name to ~/Downloads"""
     print(f"Downloading local graph `{name}`...", end="")
