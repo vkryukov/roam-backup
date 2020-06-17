@@ -32,3 +32,15 @@ positional arguments:
 optional arguments:
   -h, --help   show this help message and exit
 ```
+
+## Scheduling backup
+
+To schedule backups on macOS, you can use [A launchd.plist generator](http://launched.zerowidth.com/). E.g.
+if you put the script in `/Users/vkryukov`, and want to backup a local database `test` into 
+`/Users/vkryukov/roam-backups` every 15 minutes, you should populate the following fields:
+
+- Name: `Roam offline backup`
+- Command: `/usr/local/bin/python3 /Users/vkryukov/roam_backup.py test /Users/vkryukov/roam-backup`
+- Minute: `*/15`
+
+Leave all the other fields blank.
