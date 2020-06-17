@@ -62,7 +62,6 @@ if __name__ == "__main__":
     parser.add_argument("backup_dir", help="folder to place backup files")
     args = parser.parse_args()
 
-
     username = getpass.getuser()
     tmp = tempfile.TemporaryDirectory()
     user_data_dir = tmp.name + "/chrome"
@@ -72,6 +71,7 @@ if __name__ == "__main__":
     chrome_options = Options()
     chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
     chrome_options.add_argument("--profile-directory=Default")
+    chrome_options.add_argument("--disable-extensions")  # to avoid  nasty side effects
     driver = Chrome(options=chrome_options)
 
     start = time.time()

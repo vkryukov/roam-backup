@@ -27,4 +27,4 @@ optional arguments:
 
 1. Download roam_backup.py and place it somewhere nice
 1. Install Selenium Chrome driver with `brew cask install chromedriver`
-1. Install `selenium` python package with `pip install selenium`
+1. Install `selenium` python package with `pip3 install selenium --user`
