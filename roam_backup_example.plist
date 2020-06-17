@@ -30,9 +30,9 @@
 		</dict>
 	</array>
 	<key>StandardOutPath</key>
-    <string>/Users/vkryukov/launchd.stdout.log</string>
-    <key>StandardErrorPath</key>
-    <string>/Users/vkryukov/launchd.stderr.log</string>
+	<string>/Users/vkryukov/launchd.stdout.log</string>
+	<key>StandardErrorPath</key>
+	<string>/Users/vkryukov/launchd.stderr.log</string>
 	<key>WorkingDirectory</key>
 	<string>/Users/vkryukov</string>
 </dict>
