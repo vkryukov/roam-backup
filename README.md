@@ -10,11 +10,18 @@ multiple configurations, although patches are welcome.
 ## Usage
 
 ```
-python3 roam_backup.py local-graph local-backup-dir
-``` 
-where 
-- `local-graph` is the name of the local graph
-- `backup_destination` is a directory where the backup copy should be placed
+usage: roam_backup.py [-h] local_graph backup_dir
+
+Backup local Roam database.
+
+positional arguments:
+  local_graph  name of the local graph
+  backup_dir   folder to place backup files
+
+optional arguments:
+  -h, --help   show this help message and exit
+
+```
 
 ## Installation
 

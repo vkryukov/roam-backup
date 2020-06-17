@@ -1,5 +1,6 @@
 #! /usr/local/bin/python3
 
+import argparse
 import getpass
 import glob
 import os.path
@@ -56,12 +57,15 @@ def move_roam_exports_since(start, backup_dir, username, local_graph):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Backup local Roam database.')
+    parser.add_argument("local_graph", help="name of the local graph")
+    parser.add_argument("backup_dir", help="folder to place backup files")
+    args = parser.parse_args()
+
+
     username = getpass.getuser()
     tmp = tempfile.TemporaryDirectory()
     user_data_dir = tmp.name + "/chrome"
-
-    local_graph = len(sys.argv) > 1 and sys.argv[1] or "test"
-    backup_dir = len(sys.argv) > 2 and sys.argv[2] or "/tmp/a"
 
     clone_chrome_user_data(username, user_data_dir)
 
@@ -71,7 +75,7 @@ if __name__ == "__main__":
     driver = Chrome(options=chrome_options)
 
     start = time.time()
-    download_local_graph(driver, local_graph)
-    move_roam_exports_since(start, backup_dir, username, local_graph)
+    download_local_graph(driver, args.local_graph)
+    move_roam_exports_since(start, args.backup_dir, username, args.local_graph)
 
     driver.quit()
