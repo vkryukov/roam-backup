@@ -44,3 +44,17 @@ if you put the script in `/Users/vkryukov`, and want to backup a local database 
 - Minute: `*/15`
 
 Leave all the other fields blank.
+
+**Important**. After the file is created, you will need to also specify the working directory. By default,
+the working directory is `/`, and unless you change it, `chromedriver` won't be able to download any files.
+You can set it to your home directory or `/tmp`. It's also convenient to setup `stderr` and `stdout` logs, e.g.:
+```
+    <key>StandardOutPath</key>
+    <string>/Users/vkryukov/launchd.stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/vkryukov/launchd.stderr.log</string>
+    <key>WorkingDirectory</key>
+    <string>/Users/vkryukov</string>
+```
+
+You can modify the [example](https://github.com/vkryukov/roam-backup/blob/master/roam_backup_example.plist) to suit your needs.
