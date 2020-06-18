@@ -38,7 +38,6 @@ def clone_chrome_user_data(username, dst_dir):
     """Copy Chrome settings folder to dst_dir"""
     print("Cloning chrome user data...", end="")
     src_dir = f"/Users/{username}/Library/Application Support/Google/Chrome"
-    # subprocess.check_call(["cp", "-R", src_dir, dst_dir])
     try:
         shutil.copytree(src_dir, dst_dir)
     except shutil.Error:
@@ -52,7 +51,7 @@ def move_roam_exports_since(start, backup_dir, username, local_graph):
              if os.path.getctime(p) >= start]
     for p in paths:
         base = os.path.splitext(os.path.basename(p))[0][len("Roam-Export-"):]
-        fmt_time = time.strftime("%Y-%m-%d-%H%M%S", time.localtime(float(base)/1000))
+        fmt_time = time.strftime("%Y-%m-%d-%H%M%S", time.localtime(float(base) / 1000))
         target = os.path.join(backup_dir, f"{local_graph}-{fmt_time}.zip")
         print(f"Moving {p} to {target}...", end="")
         shutil.move(p, target)
@@ -64,7 +63,6 @@ if __name__ == "__main__":
     parser.add_argument("local_graph", help="name of the local graph")
     parser.add_argument("backup_dir", help="folder to place backup files")
     args = parser.parse_args()
-
 
     username = getpass.getuser()
     tmp = tempfile.TemporaryDirectory()
