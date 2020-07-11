@@ -13,6 +13,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 
+TIMEOUT_BETWEEN_ACTIONS = 0.1
 
 def download_local_graph(driver, name):
     """Download a local graph with given name to ~/Downloads"""
@@ -26,7 +27,7 @@ def download_local_graph(driver, name):
             ".bp3-intent-primary"
     ):
         el = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.CSS_SELECTOR, css_selector))
-        time.sleep(0.1)
+        time.sleep(TIMEOUT_BETWEEN_ACTIONS)
         el.click()
 
     time.sleep(10)
@@ -75,8 +76,11 @@ if __name__ == "__main__":
     chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
     chrome_options.add_argument("--profile-directory=Default")
     chrome_options.add_argument("--disable-extensions")
-    if not args.debug:
+    if args.debug:
+        TIMEOUT_BETWEEN_ACTIONS = 1.0
+    else:
         chrome_options.add_argument("--headless")
+
     driver = Chrome("/usr/local/bin/chromedriver", options=chrome_options)
     print("done.")
 
