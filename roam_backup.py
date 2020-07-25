@@ -12,10 +12,11 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 
-TIMEOUT_BETWEEN_ACTIONS = 0.1
+TIMEOUT_BETWEEN_ACTIONS = 0.1  # Sleep time between consecutive browser actions
 
-def download_local_graph(driver, name):
+def download_local_graph(driver, name, timeout):
     """Download a local graph with given name to ~/Downloads"""
     print(f"Downloading local graph `{name}`...", end="")
     driver.get("https://roamresearch.com/#/offline/" + name)
@@ -26,9 +27,13 @@ def download_local_graph(driver, name):
             ".bp3-text-overflow-ellipsis",
             ".bp3-intent-primary"
     ):
-        el = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.CSS_SELECTOR, css_selector))
-        time.sleep(TIMEOUT_BETWEEN_ACTIONS)
-        el.click()
+        try:
+            el = WebDriverWait(driver, timeout=timeout).until(lambda d: d.find_element(By.CSS_SELECTOR, css_selector))
+            time.sleep(TIMEOUT_BETWEEN_ACTIONS)
+            el.click()
+        except TimeoutException as e:
+            print(f"Timeout of {timeout} seconds exceeded while finding selector {css_selector}. Exiting...")
+            raise e
 
     time.sleep(10)
     print("done.")
@@ -62,7 +67,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Backup local Roam database.')
     parser.add_argument("local_graph", help="name of the local graph")
     parser.add_argument("backup_dir", help="folder to place backup files")
-    parser.add_argument("--debug", help="show the browser and increase timeouts", action="store_true")
+    parser.add_argument("--debug", help="show the browser and pause after each step", action="store_true")
+    parser.add_argument("--timeout", help="max timeout for each action", type=float, default=30)
     args = parser.parse_args()
 
     username = getpass.getuser()
@@ -85,7 +91,7 @@ if __name__ == "__main__":
     print("done.")
 
     start = time.time()
-    download_local_graph(driver, args.local_graph)
+    download_local_graph(driver, args.local_graph, args.timeout)
     move_roam_exports_since(start, args.backup_dir, username, args.local_graph)
 
     driver.quit()
