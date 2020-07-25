@@ -35,7 +35,7 @@ def download_local_graph(driver, name, timeout):
             print(f"Timeout of {timeout} seconds exceeded while finding selector {css_selector}. Exiting...")
             raise e
 
-    time.sleep(10)
+    time.sleep(timeout)
     print("done.")
 
 
