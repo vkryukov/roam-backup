@@ -14,7 +14,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 
-TIMEOUT_BETWEEN_ACTIONS = 0.1  # Sleep time between consecutive browser actions
+SLEEP_BETWEEN_ACTIONS = 0.1  # Sleep time between consecutive browser actions
 
 def download_local_graph(driver, name, timeout):
     """Download a local graph with given name to ~/Downloads"""
@@ -29,7 +29,7 @@ def download_local_graph(driver, name, timeout):
     ):
         try:
             el = WebDriverWait(driver, timeout=timeout).until(lambda d: d.find_element(By.CSS_SELECTOR, css_selector))
-            time.sleep(TIMEOUT_BETWEEN_ACTIONS)
+            time.sleep(SLEEP_BETWEEN_ACTIONS)
             el.click()
         except TimeoutException as e:
             print(f"Timeout of {timeout} seconds exceeded while finding selector {css_selector}. Exiting...")
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     chrome_options.add_argument("--profile-directory=Default")
     chrome_options.add_argument("--disable-extensions")
     if args.debug:
-        TIMEOUT_BETWEEN_ACTIONS = 1.0
+        SLEEP_BETWEEN_ACTIONS = 1.0
     else:
         chrome_options.add_argument("--headless")
 
