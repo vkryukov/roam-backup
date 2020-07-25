@@ -21,16 +21,19 @@ command:
 ## Usage
 
 ```
-usage: roam_backup.py [-h] local_graph backup_dir
+usage: roam_backup.py [-h] [--debug] [--timeout TIMEOUT]
+                      local_graph backup_dir
 
 Backup local Roam database.
 
 positional arguments:
-  local_graph  name of the local graph
-  backup_dir   folder to place backup files
+  local_graph        name of the local graph
+  backup_dir         folder to place backup files
 
 optional arguments:
-  -h, --help   show this help message and exit
+  -h, --help         show this help message and exit
+  --debug            show the browser and pause after each step
+  --timeout TIMEOUT  max timeout for each action
 ```
 
 ## Scheduling backup
