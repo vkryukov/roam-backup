@@ -22,7 +22,7 @@ def download_local_graph(driver, name, timeout):
     driver.get("https://roamresearch.com/#/offline/" + name)
     for css_selector in (
             ".bp3-icon-more",
-            "li:nth-child(3) .bp3-text-overflow-ellipsis",
+            "li:nth-child(4) .bp3-text-overflow-ellipsis",
             ".bp3-button-text",
             ".bp3-text-overflow-ellipsis",
             ".bp3-intent-primary"
